@@ -84,7 +84,7 @@ audio{width:100%;margin-block:6px 10px}
 .launch{background:var(--chip);border-radius:12px;padding:10px 14px;font-size:15px;margin:0}
 .plan .btn{margin-top:auto}
 .code{display:flex;align-items:center;gap:10px;background:var(--navy);color:var(--navy-ink);border-radius:12px;padding:12px 14px;margin:0 0 10px;direction:ltr}
-.code code{flex:1;min-width:0;overflow-x:auto;white-space:nowrap;font:500 15px/1.5 ui-monospace,Menlo,Consolas,monospace}
+.code code{flex:1;min-width:0;white-space:pre-wrap;word-break:break-all;font:500 15px/1.5 ui-monospace,Menlo,Consolas,monospace}
 .code button{flex:none;font:700 13px Heebo;padding:7px 12px;border-radius:8px;border:0;background:var(--navy-line);color:var(--navy-ink);cursor:pointer}
 .say-it{background:var(--surface);border:1px solid var(--line);border-inline-start:4px solid var(--accent);border-radius:12px;padding:12px 16px;margin:14px 0 0}
 .req{color:var(--muted);font-size:15px;margin:12px 0 0}
@@ -97,8 +97,9 @@ summary{font-weight:700;cursor:pointer}
 details p{margin:10px 0 2px;color:var(--muted)}
 footer{border-top:1px solid var(--line);padding-block:26px;color:var(--muted);font-size:14px}
 footer .wrap{display:flex;gap:18px;flex-wrap:wrap;justify-content:space-between}
-.ltr{direction:ltr;text-align:left}
-.mail{unicode-bidi:isolate;user-select:all}
+.ltr{direction:ltr;text-align:left;unicode-bidi:isolate}
+.nw{white-space:nowrap}
+.mail{user-select:all}
 @media (max-width:860px){.demo,.plans{grid-template-columns:1fr}}
 @media (max-width:760px){.hero{grid-template-columns:1fr;padding-block:36px 24px}.big,.steps,.feat{grid-template-columns:1fr}nav{display:none}}
 </style>
@@ -118,7 +119,7 @@ footer .wrap{display:flex;gap:18px;flex-wrap:wrap;justify-content:space-between}
 <div class="hero">
   <div>
     <h1>הקול שלך. <span>עברית בלי טעויות הגייה.</span></h1>
-    <p class="lead">Mivta הוא פלאגין ל-Claude שמשבט את הקול שלכם ומקריא כל טקסט בעברית עם ניקוד והטעמה נכונים. לפני ההקלטה רואים איך כל מילה תיקרא, ואחריה כל משפט נבדק.</p>
+    <p class="lead">Mivta הוא פלאגין ל‑Claude שמשבט את הקול שלכם ומקריא כל טקסט בעברית עם ניקוד והטעמה נכונים. לפני ההקלטה רואים איך כל מילה תיקרא, ואחריה כל משפט נבדק.</p>
     <div class="cta"><a class="btn primary" href="#start">7 ימי Pro בחינם</a><a class="btn" href="#demo">לשמוע את ההבדל</a></div>
   </div>
   <div class="specimen" aria-label="דוגמאות לניקוד והטעמה">
@@ -132,7 +133,7 @@ footer .wrap{display:flex;gap:18px;flex-wrap:wrap;justify-content:space-between}
   <h2>אותו קול, אותו משפט. ההבדל הוא הניקוד.</h2>
   <p class="sub">שלוש ההקלטות יצאו מאותו מנוע חינמי ומאותו קול משובט. מתחת לכל אחת כתוב מה נשמע בה.</p>
   <p class="sentence">"הספר סיפר לי שהספר נמכר בשמונה עשר שקלים."</p>
-  <p class="gloss">כלומר: <b>הַסַּפָּר</b> מהמספרה סיפר לי ש<b>הַסֵּ֫פֶר</b> נמכר ב-18 ₪.</p>
+  <p class="gloss">כלומר: <b>הַסַּפָּר</b> מהמספרה סיפר לי ש<b>הַסֵּ֫פֶר</b> נמכר ב‑18 ₪.</p>
   <div class="demo">
     <div class="card"><span class="tag bad">המנוע לבד</span><h3>בלי ניקוד</h3>
       <audio controls preload="none" src="audio/demo_plain.mp3"></audio>
@@ -142,7 +143,7 @@ footer .wrap{display:flex;gap:18px;flex-wrap:wrap;justify-content:space-between}
       <p class="heard">נקרא: <q>הַסֵּפֶר סִיפֵּר לִי</q>. ספר שמדבר: הניקוד האוטומטי בחר במילה הלא נכונה.</p></div>
     <div class="card win"><span class="tag good">עם Mivta</span><h3>ניקוד, הטעמה ומילון</h3>
       <audio controls preload="none" src="audio/demo_mivta.mp3"></audio>
-      <p class="heard">תמלול עברי שמע: <q>הספר סיפר לי שהספר נמכר בשמונה עשר שקלים</q>, ובדיקת הצלילים שמעה <span class="ltr">ha-sa-PAR</span>.</p></div>
+      <p class="heard">תמלול עברי שמע: <q>הספר סיפר לי שהספר נמכר בשמונה עשר שקלים</q>, ובדיקת הצלילים שמעה <span class="ltr nw">ha-sa-PAR</span>.</p></div>
   </div>
   <div class="big">
     <div><div class="n">65%</div><p>מהמילים יצאו שגויות במנוע הזה בעברית, ב<a href="https://bintechai.com/learn/ai-voice" target="_blank" rel="noopener">בדיקה עצמאית</a></p></div>
@@ -154,9 +155,9 @@ footer .wrap{display:flex;gap:18px;flex-wrap:wrap;justify-content:space-between}
 <section id="how">
   <h2>שלושה צעדים</h2>
   <ol class="steps">
-    <li><h3>מקליטים את הקול</h3><p>דקה עד שלוש של דיבור טבעי, אפילו מהטלפון. ב-Pro נבנה מכל הדקות פרופיל קול, שנשמע יותר כמוכם.</p></li>
+    <li><h3>מקליטים את הקול</h3><p>דקה עד שלוש של דיבור טבעי, אפילו מהטלפון. ב‑Pro נבנה מכל הדקות פרופיל קול, שנשמע יותר כמוכם.</p></li>
     <li><h3>עוברים על כל מילה</h3><p>Claude מראה איך כל מילה תיקרא: ניקוד והטעמה. מתקנים מה שצריך, והתיקון נשמר לכל התסריטים הבאים.</p></li>
-    <li><h3>מקבלים הקלטה בדוקה</h3><p>ב-Pro: כמה גרסאות לכל משפט, כל אחת עוברת תמלול ובדיקת צלילים והטעמה, והטובה נבחרת לבד.</p></li>
+    <li><h3>מקבלים הקלטה בדוקה</h3><p>ב‑Pro: כמה גרסאות לכל משפט, כל אחת עוברת תמלול ובדיקת צלילים והטעמה, והטובה נבחרת לבד.</p></li>
   </ol>
 </section>
 
@@ -168,7 +169,7 @@ footer .wrap{display:flex;gap:18px;flex-wrap:wrap;justify-content:space-between}
     <li>סקירת מילה-מילה לפני כל הקלטה: רואים בדיוק מה ייאמר</li>
     <li>בדיקת כל הקלטה: תמלול עברי, צלילים, הטעמה ודמיון לקול שלכם</li>
     <li>מנוע קול ברישיון MIT שרץ אצלכם: בלי תשלום לפי תו ובלי לשלוח את הקול לשום מקום</li>
-    <li>סימן מים בלתי נשמע בכל הקלטה, שמזהה אותה כ-AI</li>
+    <li>סימן מים בלתי נשמע בכל הקלטה, שמזהה אותה כ‑AI</li>
   </ul>
 </section>
 
@@ -181,23 +182,23 @@ footer .wrap{display:flex;gap:18px;flex-wrap:wrap;justify-content:space-between}
       <a class="btn" href="#start">להתקנה</a></div>
     <div class="plan pro"><span class="badge">מומלץ</span><h3>Pro</h3><p class="who">ליוצרי תוכן ולמי שמפרסם</p><div class="price">₪39 <small>לחודש · או ₪349 לשנה</small></div>
       <ul><li><b>פרופיל קול</b> מכל הדקות שהקלטתם</li><li><b>3–5 גרסאות</b> לכל משפט, בדיקה של כל מילה, והטובה נבחרת לבד</li><li><b>המילון המשותף</b> המאומת, שמתעדכן כל שבוע</li><li>מילים משלכם בלי הגבלה, ותסריטים בכל אורך</li><li><b>שימוש מסחרי:</b> ערוץ עם מונטיזציה, פרסומות, קורסים</li></ul>
-      <p class="launch"><b>מחיר השקה:</b> ₪29 לחודש ל-100 המנויים הראשונים, כל עוד המנוי פעיל.</p>
+      <p class="launch"><b>מחיר השקה:</b> ₪29 לחודש ל‑100 המנויים הראשונים, כל עוד המנוי פעיל.</p>
       <a class="btn primary" href="#start" data-plan="pro">7 ימים בחינם, בלי כרטיס</a></div>
     <div class="plan"><h3>Studio</h3><p class="who">לעורכים, במאים ואולפנים</p><div class="price">₪149 <small>לחודש · או ₪1,490 לשנה</small></div>
-      <ul><li>כל מה שב-Pro</li><li><b>עד 5 קולות</b>: שלכם, או של מי שנתן אישור בכתב</li><li>פיצול אוטומטי של טקסט ארוך למשפטים</li><li><b>ייצוא:</b> קובץ קריינות אחד (‎-16 LUFS) וכתוביות SRT</li><li><b>עבודות ללקוחות</b> כלולות ברישיון</li></ul>
+      <ul><li>כל מה שב‑Pro</li><li><b>עד 5 קולות</b>: שלכם, או של מי שנתן אישור בכתב</li><li>פיצול אוטומטי של טקסט ארוך למשפטים</li><li><b>ייצוא:</b> קובץ קריינות אחד (‎-16 LUFS) וכתוביות SRT</li><li><b>עבודות ללקוחות</b> כלולות ברישיון</li></ul>
       <a class="btn" href="#join" data-plan="studio">להצטרף לרשימה</a></div>
   </div>
 </section>
 
 <section id="start">
   <h2>להתחיל</h2>
-  <p class="sub"><b>ב-Claude Code:</b> הדביקו את שתי השורות.</p>
+  <p class="sub"><b>ב‑Claude Code:</b> הדביקו את שתי השורות.</p>
   <div class="code"><code>/plugin marketplace add itamarvanu-dot/mivta</code><button type="button" data-copy>העתקה</button></div>
   <div class="code"><code>/plugin install mivta@mivta</code><button type="button" data-copy>העתקה</button></div>
-  <p class="sub"><b>ב-Cowork (אפליקציית Claude):</b> Customize ← Plugins ← Add ← Add marketplace, והדביקו:</p>
+  <p class="sub"><b>ב‑Cowork (אפליקציית Claude):</b> פותחים Customize, נכנסים ל‑Plugins, לוחצים Add ובוחרים Add marketplace. מדביקים:</p>
   <div class="code"><code>itamarvanu-dot/mivta</code><button type="button" data-copy>העתקה</button></div>
   <p class="say-it">ואז פשוט לבקש: <b>"תתקין את Mivta ותפעיל לי 7 ימי Pro בחינם"</b>. Claude יבקש הקלטה של הקול שלכם, ומשם הוא מוביל.</p>
-  <p class="req">ההתקנה הראשונה לוקחת 10–20 דקות. צריך מחשב (או סביבת Claude) עם 8GB זיכרון ו-4GB פנויים בדיסק, בלי כרטיס גרפי.</p>
+  <p class="req">ההתקנה הראשונה לוקחת 10–20 דקות. צריך מחשב (או סביבת Claude) עם 8GB זיכרון ו‑4GB פנויים בדיסק, בלי כרטיס גרפי.</p>
 </section>
 
 <section id="join">
@@ -214,17 +215,17 @@ footer .wrap{display:flex;gap:18px;flex-wrap:wrap;justify-content:space-between}
 <section id="faq">
   <h2>שאלות</h2>
   <details><summary>צריך מחשב חזק?</summary><p>לא. Mivta רץ על מעבד רגיל, אצלכם או בסביבת הענן של Claude. כל גרסה של משפט לוקחת פחות מדקה. זה אוטומטי, אבל לא מיידי.</p></details>
-  <details><summary>מה ההבדל בין Pro ל-Studio?</summary><p>Pro בנוי ליוצר אחד עם קול אחד. Studio מוסיף עד חמישה קולות, פיצול אוטומטי של טקסטים ארוכים, ייצוא של קריינות אחת עם כתוביות, ורישיון לעבודות עבור לקוחות.</p></details>
-  <details><summary>מותר להשתמש בהקלטות מסחרית?</summary><p>ב-Pro וב-Studio כן, וב-Studio גם בעבודות ללקוחות. התוכנית החינמית היא לשימוש אישי בלבד. כל הקלטה נושאת סימן מים בלתי נשמע שמזהה אותה כ-AI, ובמקומות שבהם החוק מחייב לסמן תוכן AI, האחריות לסמן היא שלכם.</p></details>
+  <details><summary>מה ההבדל בין Pro ל‑Studio?</summary><p>Pro בנוי ליוצר אחד עם קול אחד. Studio מוסיף עד חמישה קולות, פיצול אוטומטי של טקסטים ארוכים, ייצוא של קריינות אחת עם כתוביות, ורישיון לעבודות עבור לקוחות.</p></details>
+  <details><summary>מותר להשתמש בהקלטות מסחרית?</summary><p>ב‑Pro וב‑Studio כן, וב‑Studio גם בעבודות ללקוחות. התוכנית החינמית היא לשימוש אישי בלבד. כל הקלטה נושאת סימן מים בלתי נשמע שמזהה אותה כ‑AI, ובמקומות שבהם החוק מחייב לסמן תוכן AI, האחריות לסמן היא שלכם.</p></details>
   <details><summary>אפשר לשבט קול של מישהו אחר?</summary><p>רק אם הוא נתן אישור בכתב. Mivta מבקש הצהרת הסכמה לפני כל שיבוט, ואסור להשתמש בקול כדי להטעות אנשים.</p></details>
-  <details><summary>מה נשלח מהמחשב שלי?</summary><p>בתוכנית החינמית: כלום. ב-Pro וב-Studio נשלחים מפתח הרישיון וקודים חד-כיווניים של המילים בתסריט, כדי לקבל את ההגייה שלהן מהמילון. לעולם לא נשלחים משפטים, אודיו או הקול שלכם.</p></details>
+  <details><summary>מה נשלח מהמחשב שלי?</summary><p>בתוכנית החינמית: כלום. ב‑Pro וב‑Studio נשלחים מפתח הרישיון וקודים חד-כיווניים של המילים בתסריט, כדי לקבל את ההגייה שלהן מהמילון. לעולם לא נשלחים משפטים, אודיו או הקול שלכם.</p></details>
   <details><summary>מה קורה בסוף 7 ימי הניסיון?</summary><p>חוזרים לתוכנית החינמית, וכל מה שהקלטתם נשאר אצלכם. לא צריך כרטיס אשראי כדי להתחיל, ואין חיוב אוטומטי.</p></details>
   <details><summary>ומה עם שפות אחרות?</summary><p>ערבית ורוסית בדרך. בשתיהן הכתב לא מראה איך הוגים, בדיוק כמו בעברית.</p></details>
   <details><summary>יש לי שאלה או בעיה</summary><p>כתבו לנו: <span class="ltr mail">mivta.ai@gmail.com</span>. עונים בעברית ובאנגלית.</p></details>
 </section>
 </main>
 
-<footer><div class="wrap"><span>Mivta (מבטא) · נבנה על Chatterbox (MIT) ו-Phonikud (CC BY 4.0) · <a href="https://github.com/itamarvanu-dot/mivta" target="_blank" rel="noopener">קוד</a> · <a href="terms.html">תנאי שימוש</a> · <a href="privacy.html">פרטיות</a> · <span class="ltr mail">mivta.ai@gmail.com</span></span>
+<footer><div class="wrap"><span><span class="ltr">Mivta</span> (מבטא) · נבנה על <span class="ltr nw">Chatterbox (MIT)</span> ו-<span class="ltr nw">Phonikud (CC BY 4.0)</span> · <a href="https://github.com/itamarvanu-dot/mivta" target="_blank" rel="noopener">קוד</a> · <a href="terms.html">תנאי שימוש</a> · <a href="privacy.html">פרטיות</a> · <span class="ltr mail">mivta.ai@gmail.com</span></span>
 <span class="ltr">Clone your own voice and narrate Hebrew with exact pronunciation. A Claude plugin.</span></div></footer>
 
 <script>
