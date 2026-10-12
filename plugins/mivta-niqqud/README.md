@@ -8,7 +8,7 @@ narrators, and anyone preparing Hebrew text for reading aloud or for a voice eng
 **ניקוד והטעמה מדויקים לכל טקסט בעברית.** מוסיף ניקוד על האותיות של הטקסט עצמו, מראה איך כל מילה נשמעת ואיפה
 ההטעמה, ומסמן את המילים שכדאי לבדוק.
 
-Website: https://mivta.netlify.app · Support: mivta.ai@gmail.com
+Website: https://mivta.netlify.app/niqqud/ · Support: mivta.ai@gmail.com
 
 ## What you get
 - The text with niqqud, as a file you can print or paste.
@@ -25,7 +25,7 @@ Website: https://mivta.netlify.app · Support: mivta.ai@gmail.com
 | Stress-marked copy of the text | - | yes |
 
 Pro is the Mivta subscription: ₪39/month or ₪349/year, 7 days free with no card
-(`python nq.py trial <email>`). Details: https://mivta.netlify.app
+(`python nq.py trial <email>`). Details: https://mivta.netlify.app/niqqud/
 
 ## Install
 In Claude Code:

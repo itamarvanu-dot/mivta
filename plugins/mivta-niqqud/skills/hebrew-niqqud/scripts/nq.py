@@ -33,8 +33,11 @@ SUPPORT = "mivta.ai@gmail.com"
 FREE_OWN_WORDS = 10
 FREE_WORDS = 150                                   # free plan: words per run (Pro: any length)
 UPGRADE = "Mivta Pro checks them against the shared, verified dictionary (python nq.py trial <email>: 7 days free, no card)."
-STRESS, METEG = "֫", "ֽ"
-NIQQUD = re.compile(r"[֑-ׇ]")
+STRESS, METEG, SHVA, DAGESH = "\u05ab", "\u05bd", "\u05b0", "\u05bc"
+NIQQUD = re.compile(r"[\u0591-\u05c7]")
+# the vowel each point says (qamats: a, or o as in kol); a plain shva says e only where the IPA has one
+QUALITY = {"\u05b1": "e", "\u05b2": "a", "\u05b3": "o", "\u05b4": "i", "\u05b5": "e", "\u05b6": "e", "\u05b7": "a",
+           "\u05b8": "ao", "\u05b9": "o", "\u05ba": "o", "\u05bb": "u", "\u05c7": "o"}
 
 
 # ------------------------------------------------------------------------------------------------- plan + server
@@ -180,6 +183,23 @@ def _definite(raw, n):
     return n <= len(cs) and any(v in cs[n - 1][1] for v in ("ַ", "ָ"))
 
 
+def _tidy_dagesh(word):
+    """Drop a dagesh the grammar does not allow, which the model now and then adds to a word: on a guttural (א ה ח ע ר,
+    a final mappiq ה aside), or on a letter outside בגדכפ"ת that starts the word or follows a letter without a vowel
+    (שָּׁלוֹם, מַפְסֵּק): a doubled letter always follows a vowel. A shuruk (וּ) keeps its dot."""
+    cs, prev_vowel = clusters(word), False
+    letters = [k for k, (c, _) in enumerate(cs) if "א" <= c <= "ת"]
+    for k in letters:
+        c, m = cs[k]
+        if DAGESH in m and c != "ו":
+            mappiq = c == "ה" and k == letters[-1]
+            if (c in "אהחער" and not mappiq) or (c not in "בגדכפתאהחער" and not prev_vowel):
+                cs[k][1] = m.replace(DAGESH, "")
+        if not (c in "וי" and not NIQQUD.search(m)):                         # a bare vowel letter keeps the vowel before it
+            prev_vowel = any(x in QUALITY for x in m) or (c == "ו" and DAGESH in m)
+    return "".join(a + b for a, b in cs)
+
+
 def vocalize(text, pro=None):
     """-> (rows [{word, voc, source}] in text order, the vocalized text with all marks)."""
     words, phrases, origin = load_dictionaries(); st = settings()
@@ -189,7 +209,7 @@ def vocalize(text, pro=None):
     for i, tok in enumerate(toks):
         if not tok.strip(): continue
         m = re.match(r"^(.*?)([.,?!:;—–\-״\"')\]|]*)$", tok)
-        raw, punct = m.group(1), m.group(2).replace("|", "")
+        raw, punct = _tidy_dagesh(m.group(1)), m.group(2).replace("|", "")
         items.append({"i": i, "core": raw.replace("|", ""), "punct": punct, "w": plain(raw), "raw": raw, "src": "auto"})
     done = set()
     allph = {k: e["voc"] for k, e in pro.items() if e.get("k") == "p" and usable(e, st)}
@@ -233,28 +253,64 @@ def readable(voc):
     vav to carry them: shuruk and holam male (מְחוּבָּרִים, בּוֹץ)."""
     cs = clusters(voc.replace("|", ""))
     for a, b in zip(cs, cs[1:]):
-        if b[0] == "ו" and not b[1]:
-            if "\u05bb" in a[1]: a[1] = a[1].replace("\u05bb", ""); b[1] = "\u05bc"
-            elif "\u05b9" in a[1]: a[1] = a[1].replace("\u05b9", ""); b[1] = "\u05b9"
+        if b[0] == "ו" and not NIQQUD.search(b[1]):            # a bare vav (spaces or punctuation may follow it)
+            if "\u05bb" in a[1]: a[1] = a[1].replace("\u05bb", ""); b[1] = "\u05bc" + b[1]
+            elif "\u05b9" in a[1]: a[1] = a[1].replace("\u05b9", ""); b[1] = "\u05b9" + b[1]
     return "".join(c + m for c, m in cs)
+
+
+def _no_final_shva(text):
+    """Readers write no shva under a word's last letter, except ך and תּ (לָךְ, אַתְּ). The voice dictionary closes
+    חַשְׁמַלַּאי with one (it keeps the glide in a voice engine); the reading copy drops it."""
+    def word(m):
+        cs = clusters(m.group(0)); c, mk = cs[-1]
+        if SHVA in mk and c != "ך" and not (c == "ת" and DAGESH in mk): cs[-1][1] = mk.replace(SHVA, "")
+        return "".join(x + y for x, y in cs)
+    return re.sub(r"(?:[א-ת][֑-ׇ]*)+", word, text)
 
 
 def standard(voc):
     """Standard niqqud for reading: no stress mark, no vocal-shva helper mark."""
-    return readable(voc).replace(STRESS, "").replace(METEG, "")
+    return _no_final_shva(readable(voc).replace(STRESS, "").replace(METEG, ""))
 
 
 def with_stress(voc):
     """Niqqud + the stress mark on words stressed before the last syllable (helps readers and voice engines)."""
-    return readable(voc).replace(METEG, "")
+    return _no_final_shva(readable(voc).replace(METEG, ""))
 
 
 LAT = [("tʃ", "tch"), ("dʒ", "j"), ("ts", "ts"), ("ʃ", "sh"), ("χ", "kh"), ("x", "kh"), ("ʁ", "r"), ("ɡ", "g"),
        ("ʒ", "zh"), ("j", "y"), ("ʔ", ""), ("ˌ", "")]
 
 
-def sounds(ipa_word):
-    """'hasapˈaʁ' -> 'ha-sa-PAR': syllables, the stressed one in capitals."""
+def _vowel_letters(voc, vowels):
+    """The letters that carry the spoken vowels of a word, in order -> [letter index] or None when they cannot be matched.
+    A full vowel point, a shuruk or a marked vocal shva always says a vowel; a plain shva only where the IPA has an e
+    there (Phonikud says וְ as 've' but כְּשֶׁ as 'kshe')."""
+    cs = [c for c in clusters(voc) if "א" <= c[0] <= "ת"]
+    marks = []
+    for k, (c, m) in enumerate(cs):
+        q = "".join(QUALITY[x] for x in m if x in QUALITY)
+        if q: marks.append((q, False))
+        elif SHVA in m: marks.append(("e", METEG not in m))
+        elif c == "ו" and DAGESH in m and (k == 0 or not any(x in QUALITY or x == METEG for x in cs[k - 1][1])):
+            marks.append(("u", False))                                      # shuruk
+        else: marks.append(("", False))
+    out, n = [], 0
+    for k, (q, optional) in enumerate(marks):
+        if not q: continue
+        if optional:
+            sure = sum(1 for x, o in marks[k + 1:] if x and not o)
+            if not (n < len(vowels) and vowels[n] == "e" and sure < len(vowels) - n): continue
+        if n >= len(vowels) or vowels[n] not in q: return None
+        out.append(k); n += 1
+    return (out, cs) if n == len(vowels) else None
+
+
+def sounds(ipa_word, voc=None):
+    """'hasapˈaʁ' -> 'ha-sa-PAR': syllables, the stressed one in capitals. Between two vowels one consonant opens the
+    next syllable and a longer run leaves its first consonant behind (yish-BRU); with the word's niqqud, a doubled
+    letter with shva opens the syllable with the run (הַפְּחָת: ha-PKHAT, הַסְּפָרִים: ha-sfa-RIM)."""
     w = re.sub(r"[.,?!:;\"״'\-]", "", ipa_word)
     stress_at = w.find("ˈ"); w = w.replace("ˈ", "")
     phones, i = [], 0
@@ -267,10 +323,16 @@ def sounds(ipa_word):
     vow = [n for n, p in enumerate(phones) if p in "aeiou"]
     if not vow: return w
     sv = next((n for n in vow if pos[n] >= stress_at), vow[-1]) if stress_at >= 0 else vow[-1]
+    match = _vowel_letters(voc, [phones[n] for n in vow]) if voc else None
     cuts = []
-    for a, b in zip(vow, vow[1:]):
-        gap = b - a - 1
-        cuts.append(b if gap == 0 else b - 1)
+    for j, (a, b) in enumerate(zip(vow, vow[1:])):
+        if b - a - 1 <= 1: cuts.append(a + 1); continue                     # V.V, V.CV
+        onset = False
+        if match:
+            at, cs = match
+            run = [c for c in cs[at[j] + 1:at[j + 1]] if c[1] or c[0] not in "אהוי"]
+            onset = bool(run) and SHVA in run[0][1] and DAGESH in run[0][1]
+        cuts.append(a + 1 if onset else a + 2)
     sylls, start = [], 0
     for c in cuts + [len(phones)]:
         sylls.append((start, c)); start = c
@@ -282,16 +344,24 @@ def sounds(ipa_word):
     return "-".join(x for x in out if x)
 
 
+def say(voc):
+    """How a vocalized word or phrase sounds, in Latin syllables: 'ha-sa-PAR'."""
+    from phonikud import phonemize
+    v = voc.replace("|", "")
+    ipas, vws = phonemize(v).split(), v.split()
+    return " ".join(sounds(x, vws[n] if len(ipas) == len(vws) else None) for n, x in enumerate(ipas))
+
+
 # ------------------------------------------------------------------------------------------------- commands
 def run(text, out_dir=None, name="text"):
-    from phonikud import phonemize
     cut = None
-    if tier() == "free" and len(text.split()) > FREE_WORDS:
-        cut = len(text.split()); text = " ".join(text.split()[:FREE_WORDS])
+    words = list(re.finditer(r"\S+", text))
+    if tier() == "free" and len(words) > FREE_WORDS:
+        cut = len(words); text = text[:words[FREE_WORDS - 1].end()]          # the first 150 words, lines kept
     pro = pro_lookup(text) if tier() != "free" else {}
     rows, voc = vocalize(text, pro)
     for r in rows:
-        r["sounds"] = " ".join(sounds(x) for x in phonemize(r["voc"].replace("|", "")).split()) if r["voc"] else ""
+        r["sounds"] = say(r["voc"]) if r["voc"] else ""
     n_auto = sum(r["source"] == "auto" for r in rows)
     lines = ["| # | מילה | ניקוד | הגייה | מקור |", "|---|---|---|---|---|"]
     lines += [f"| {i} | {r['word']} | {standard(r['voc'])} | {r['sounds']} | {r['source']} |" for i, r in enumerate(rows, 1)]
@@ -313,7 +383,6 @@ def run(text, out_dir=None, name="text"):
 
 
 def add_word(word, voc):
-    from phonikud import phonemize
     if strip(voc) != strip(word) and fit(voc, word) is None:
         sys.exit(f"{voc} is not a spelling of {word}: give the niqqud on the same letters")
     d = json.load(open(USER_LEX, encoding="utf-8")) if os.path.exists(USER_LEX) else {}
@@ -321,7 +390,7 @@ def add_word(word, voc):
         sys.exit(f"The free plan keeps {FREE_OWN_WORDS} words of your own. {UPGRADE}")
     d[word] = voc; os.makedirs(HOME, exist_ok=True)
     json.dump(d, open(USER_LEX, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
-    print(f"{word} -> {voc}  [{sounds(phonemize(voc))}]  saved ({len(d)} words of your own)")
+    print(f"{word} -> {voc}  [{say(voc)}]  saved ({len(d)} {'word' if len(d) == 1 else 'words'} of your own)")
 
 
 def set_settings(args):

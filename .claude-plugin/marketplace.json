@@ -18,7 +18,7 @@
       "source": "./plugins/mivta-niqqud",
       "description": "Exact Hebrew niqqud and stress for any text, with a word-by-word table of how each word sounds and the words to check. ניקוד והטעמה מדויקים לכל טקסט בעברית.",
       "category": "productivity",
-      "homepage": "https://mivta.netlify.app"
+      "homepage": "https://mivta.netlify.app/niqqud/"
     }
   ]
 }
