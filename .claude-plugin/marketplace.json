@@ -1,6 +1,6 @@
 {
   "name": "mivta",
-  "description": "Mivta (מבטא): your own voice, reading Hebrew right.",
+  "description": "Mivta (מבטא): Hebrew that reads right. Voice narration in your own voice, and exact niqqud for any text.",
   "owner": {
     "name": "Itamar",
     "email": "mivta.ai@gmail.com"
@@ -8,8 +8,15 @@
   "plugins": [
     {
       "name": "mivta",
-      "source": ".",
-      "description": "Clone your own voice and narrate Hebrew with exact pronunciation: niqqud and stress, a verified dictionary, a word-by-word review before recording and automatic QA of every take. שיבוט קול והקראה בעברית בהגייה מדויקת.",
+      "source": "./plugins/mivta",
+      "description": "Clone your own voice and narrate Hebrew with exact pronunciation: a word-by-word review before recording and automatic QA of every take. שיבוט קול והקראה בעברית בהגייה מדויקת.",
+      "category": "productivity",
+      "homepage": "https://mivta.netlify.app"
+    },
+    {
+      "name": "mivta-niqqud",
+      "source": "./plugins/mivta-niqqud",
+      "description": "Exact Hebrew niqqud and stress for any text, with a word-by-word table of how each word sounds and the words to check. ניקוד והטעמה מדויקים לכל טקסט בעברית.",
       "category": "productivity",
       "homepage": "https://mivta.netlify.app"
     }

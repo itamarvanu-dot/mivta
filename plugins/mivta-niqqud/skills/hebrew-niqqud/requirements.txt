@@ -1,0 +1,10 @@
+# Mivta Niqqud: exact versions tested together (CPU only)
+phonikud==0.4.1
+phonikud-onnx==1.0.6
+onnxruntime==1.21.1
+tokenizers==0.22.2
+huggingface-hub==1.32.0
+numpy==2.4.6
+num2words==0.5.14
+colorlog==6.12.0
+regex==2026.9.10

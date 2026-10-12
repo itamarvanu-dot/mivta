@@ -1,0 +1,21 @@
+{"lexicon": "hebrew-pronunciation", "tier": "free", "version": "2026-10-12", "entries": 20, "stress_mark": "U+05AB on mil'el only", "vocal_shva_mark": "U+05BD", "source": "Mivta, verified on a published channel (EP01-EP04)"}
+{"word": "פתח", "voc": "פֶּ֫תַח", "ipa": "pˈetaχ", "domains": ["general"], "style": "standard", "forms": ["בפתח"], "note": "places", "tier": "free"}
+{"word": "תקווה", "voc": "תִּ֫קְוָה", "ipa": "tˈikva", "domains": ["general"], "style": "standard", "forms": [], "note": "places", "tier": "free"}
+{"word": "מים", "voc": "מַ֫יִם", "ipa": "mˈajim", "domains": ["general"], "style": "standard", "forms": ["במים", "המים", "ומים", "למים"], "note": "", "tier": "free"}
+{"word": "ליטר", "voc": "לִ֫יטֶר", "ipa": "lˈiteʁ", "domains": ["general"], "style": "standard", "forms": [], "note": "LI-ter; me-chu-YAL; directional ה: ha-CHU-tsa", "tier": "free"}
+{"word": "החוצה", "voc": "הַח֫וּצָה", "ipa": "haχˈutsa", "domains": ["general"], "style": "standard", "forms": [], "note": "LI-ter; me-chu-YAL; directional ה: ha-CHU-tsa", "tier": "free"}
+{"word": "מאתיים", "voc": "מָאתַ֫יִם", "ipa": "matˈajim", "domains": ["general"], "style": "standard", "forms": ["ומאתיים"], "note": "EP01", "tier": "free"}
+{"word": "מאות", "voc": "מֵאוֹת", "ipa": "meʔˈot", "domains": ["general"], "style": "standard", "forms": [], "note": "EP01", "tier": "free"}
+{"word": "עשרים", "voc": "עֶשְׂרִים", "ipa": "ʔesʁˈim", "domains": ["general"], "style": "standard", "forms": [], "note": "numbers (Phonikud flips them by context: it gave AR-ba-im once) - tens are milra, אֶ֫לֶף is mil'el", "tier": "free"}
+{"word": "שלושים", "voc": "שְׁלוֹשִׁים", "ipa": "ʃloʃˈim", "domains": ["general"], "style": "standard", "forms": [], "note": "numbers (Phonikud flips them by context: it gave AR-ba-im once) - tens are milra, אֶ֫לֶף is mil'el", "tier": "free"}
+{"word": "ארבעים", "voc": "אַרְבָּעִים", "ipa": "ʔaʁbaʔˈim", "domains": ["general"], "style": "standard", "forms": [], "note": "numbers (Phonikud flips them by context: it gave AR-ba-im once) - tens are milra, אֶ֫לֶף is mil'el", "tier": "free"}
+{"word": "חמישים", "voc": "חֲמִישִּׁים", "ipa": "χamiʃˈim", "domains": ["general"], "style": "standard", "forms": [], "note": "numbers (Phonikud flips them by context: it gave AR-ba-im once) - tens are milra, אֶ֫לֶף is mil'el", "tier": "free"}
+{"word": "שישים", "voc": "שִׁשִּׁים", "ipa": "ʃiʃˈim", "domains": ["general"], "style": "standard", "forms": [], "note": "numbers (Phonikud flips them by context: it gave AR-ba-im once) - tens are milra, אֶ֫לֶף is mil'el", "tier": "free"}
+{"word": "שבעים", "voc": "שִׁבְעִים", "ipa": "ʃivʔˈim", "domains": ["general"], "style": "standard", "forms": [], "note": "", "tier": "free"}
+{"word": "שמונים", "voc": "שְׁמוֹנִים", "ipa": "ʃmonˈim", "domains": ["general"], "style": "standard", "forms": ["השמונים"], "note": "", "tier": "free"}
+{"word": "תשעים", "voc": "תִּשְׁעִים", "ipa": "tiʃʔˈim", "domains": ["general"], "style": "standard", "forms": [], "note": "", "tier": "free"}
+{"word": "מאה", "voc": "מֵאָה", "ipa": "meʔˈa", "domains": ["general"], "style": "standard", "forms": [], "note": "", "tier": "free"}
+{"word": "אלף", "voc": "אֶ֫לֶף", "ipa": "ʔˈelef", "domains": ["general"], "style": "standard", "forms": [], "note": "", "tier": "free"}
+{"word": "אלפים", "voc": "אֲלָפִים", "ipa": "ʔalafˈim", "domains": ["general"], "style": "standard", "forms": [], "note": "", "tier": "free"}
+{"word": "ושמונה", "voc": "וּשְׁמ֫וֹנֶה", "ipa": "uʃmˈone", "domains": ["general"], "style": "standard", "forms": [], "note": "grammar review 2026-10-06: imperative כִּתְבוּ (not כָּתְבוּ = they wrote), definite בַּתְּגוּבוֹת, feminine number before שָׁעוֹת: שְׁמוֹנֶה (not שְׁמוֹנָה)", "tier": "free"}
+{"word": "אלפיים", "voc": "אַלְפַּ֫יִם", "ipa": "ʔalpˈajim", "domains": ["general"], "style": "standard", "forms": [], "note": "al-PA-yim (Phonikud: al-pa-YIM)", "tier": "free"}
