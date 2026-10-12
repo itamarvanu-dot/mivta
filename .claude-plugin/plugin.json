@@ -1,0 +1,27 @@
+{
+  "name": "mivta",
+  "version": "1.0.0",
+  "description": "Mivta (מבטא): clone your own voice and narrate Hebrew with exact pronunciation - automatic niqqud and stress, a verified shared dictionary, a word-by-word review before recording and automatic QA of every take. Free engine (Chatterbox, MIT). שיבוט קול והקראה בעברית בהגייה מדויקת.",
+  "author": {
+    "name": "Itamar",
+    "email": "mivta.ai@gmail.com"
+  },
+  "license": "LicenseRef-PolyForm-Strict-1.0.0",
+  "keywords": [
+    "hebrew",
+    "text-to-speech",
+    "voice-clone",
+    "narration",
+    "voiceover",
+    "niqqud",
+    "tts",
+    "mivta",
+    "עברית",
+    "שיבוט קול",
+    "הקראה",
+    "ניקוד",
+    "קריינות"
+  ],
+  "homepage": "https://mivta.netlify.app",
+  "repository": "https://github.com/itamarvanu-dot/mivta"
+}

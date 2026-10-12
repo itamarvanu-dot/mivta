@@ -1,0 +1,11 @@
+# the tools venv (niqqud, Hebrew ASR, phoneme check) - versions tested together on Linux, Python 3.11, CPU
+phonikud==0.4.1
+phonikud-onnx==1.0.6
+onnxruntime==1.21.1
+faster-whisper==1.2.1
+ctranslate2==4.8.2
+transformers==5.2.0
+librosa==0.11.0
+soundfile==0.14.0
+scipy==1.17.1
+numpy==2.4.6
