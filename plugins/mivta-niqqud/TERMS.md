@@ -5,7 +5,8 @@ Last updated: 2026-10-12
 ## 1. What Mivta Niqqud is
 Mivta Niqqud is a Claude plugin that adds niqqud (vowel points) and stress information to Hebrew text. It runs on your
 own machine or Claude environment. A Mivta Pro subscription adds the shared, verified dictionary on the Mivta server
-and the features listed in README.md.
+and the features listed in README.md. You must be 18 or older to use Mivta Niqqud, as Claude itself requires; adults
+may use it to prepare texts for children, at school or at home.
 
 ## 2. Licence
 - The plugin is source-available under the PolyForm Strict License 1.0.0 (LICENSE): personal, non-commercial use only,

@@ -1,7 +1,7 @@
 {
   "name": "mivta-niqqud",
   "displayName": "Mivta Niqqud",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Exact Hebrew niqqud and stress for any text: vowel points added on the text's own letters, a word-by-word table with how each word sounds, and the words to check. Free up to 150 words per run; Mivta Pro adds a shared, verified dictionary and any length. ניקוד והטעמה מדויקים לכל טקסט בעברית.",
   "author": {
     "name": "Itamar",
@@ -22,5 +22,10 @@
     "mivta"
   ],
   "homepage": "https://mivta.netlify.app/niqqud/",
-  "repository": "https://github.com/itamarvanu-dot/mivta"
+  "repository": "https://github.com/itamarvanu-dot/mivta",
+  "icon": "./.claude-plugin/icon.png",
+  "documentationUrl": "https://github.com/itamarvanu-dot/mivta/tree/main/plugins/mivta-niqqud#readme",
+  "supportUrl": "https://mivta.netlify.app/niqqud/#faq",
+  "privacyPolicyUrl": "https://mivta.netlify.app/niqqud/privacy.html",
+  "termsOfServiceUrl": "https://mivta.netlify.app/niqqud/terms.html"
 }

@@ -15,4 +15,6 @@ Last updated: 2026-10-12
 - **Trial:** we keep the email address you start a trial with, so each address gets one trial, and may write to you
   once when the trial ends. Ask us and we delete it.
 - **Payments** are handled by Lemon Squeezy as merchant of record; we do not see your card details.
+- **Age:** Mivta Niqqud is for people 18 and over, as Claude itself is, and we do not knowingly collect data from anyone
+  younger. If you think a child gave us an email address, write to us and we will delete it.
 - **Contact** for privacy requests: mivta.ai@gmail.com

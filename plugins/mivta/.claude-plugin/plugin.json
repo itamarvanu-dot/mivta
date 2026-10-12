@@ -1,6 +1,6 @@
 {
   "name": "mivta",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Mivta (מבטא): clone your own voice and narrate Hebrew with exact pronunciation - automatic niqqud and stress, a verified shared dictionary, a word-by-word review before recording and automatic QA of every take. Free engine (Chatterbox, MIT). שיבוט קול והקראה בעברית בהגייה מדויקת.",
   "author": {
     "name": "Itamar",
@@ -23,5 +23,10 @@
     "קריינות"
   ],
   "homepage": "https://mivta.netlify.app",
-  "repository": "https://github.com/itamarvanu-dot/mivta"
+  "repository": "https://github.com/itamarvanu-dot/mivta",
+  "icon": "./.claude-plugin/icon.png",
+  "documentationUrl": "https://github.com/itamarvanu-dot/mivta/tree/main/plugins/mivta#readme",
+  "supportUrl": "https://mivta.netlify.app/#faq",
+  "privacyPolicyUrl": "https://mivta.netlify.app/privacy.html",
+  "termsOfServiceUrl": "https://mivta.netlify.app/terms.html"
 }

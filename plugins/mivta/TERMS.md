@@ -1,11 +1,12 @@
 # Mivta terms of use (draft, pending legal review)
 
-Last updated: 2026-10-12 (Pro module, support address)
+Last updated: 2026-10-12 (Pro module, support address, minimum age)
 
 ## 1. What Mivta is
 Mivta is a Claude plugin that creates speech in a voice cloned from a recording you provide, with a Hebrew
 pronunciation layer. It runs on your own machine or Claude environment. The Pro and Studio plans add access to the
-shared pronunciation dictionary on the Mivta server and unlock the features listed in README.md.
+shared pronunciation dictionary on the Mivta server and unlock the features listed in README.md. You must be 18 or
+older to use Mivta, as Claude itself requires.
 
 ## 2. Licence
 - The plugin is source-available under the PolyForm Strict License 1.0.0 (LICENSE): personal, non-commercial use only,

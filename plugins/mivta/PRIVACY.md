@@ -21,4 +21,6 @@ Last updated: 2026-10-12
 - **Waitlist:** if you join the waitlist we keep your email address (and name, if given) only to tell you when
   payments open, in private storage. Ask us and we delete it.
 - **Payments** are handled by Lemon Squeezy as merchant of record; we do not see your card details.
+- **Age:** Mivta is for people 18 and over, as Claude itself is, and we do not knowingly collect data from anyone
+  younger. If you think a child gave us an email address, write to us and we will delete it.
 - **Contact** for privacy requests: mivta.ai@gmail.com
