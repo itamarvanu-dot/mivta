@@ -37,8 +37,9 @@ Then ask Claude to "put niqqud on this text". The first time, Claude runs `skill
 Python environment and the niqqud model (about 400 MB, CPU only).
 
 ## What the plugin downloads and sends
-- Setup downloads Python packages from PyPI and the Phonikud niqqud model (and its tokenizer) from Hugging Face.
-- Free plan: nothing else leaves your machine.
+- Setup downloads Python packages from PyPI (pinned versions) and, from Hugging Face, the Phonikud
+  niqqud model (pinned revision, checked against its SHA-256) and its tokenizer. After setup the free plan runs offline.
+- Free plan: nothing else leaves your machine; your text never does.
 - Mivta Pro: your licence key and one-way codes (salted SHA-256) of the words and 2-3 word runs of the text go to the
   Mivta server (mivta.netlify.app), which returns the dictionary readings it has for those words. The text itself is
   never sent. A trial sends the email address you give it. Details: [PRIVACY.md](PRIVACY.md).

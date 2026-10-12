@@ -4,7 +4,8 @@ Last updated: 2026-10-12
 
 - **Your text** is processed where you run the plugin (your computer or your Claude environment). Mivta Niqqud does not
   upload it.
-- **Setup** downloads Python packages from PyPI and the Phonikud niqqud model and tokenizer from Hugging Face.
+- **Setup** downloads Python packages from PyPI and the Phonikud niqqud model and tokenizer from Hugging Face; after that
+  the free plan works offline.
 - **Mivta Pro dictionary lookups:** with Pro, the plugin sends our server (mivta.netlify.app) your licence key and
   one-way codes (salted SHA-256) of the individual words and 2-3 word runs in your text, so the server can return the
   dictionary readings it has for those words. The text itself is never sent. The server logs which codes each licence

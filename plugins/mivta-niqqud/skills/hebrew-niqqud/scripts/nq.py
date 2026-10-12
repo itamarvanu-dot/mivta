@@ -25,6 +25,11 @@ HOME = os.path.abspath(os.environ.get("HV_HOME", os.path.expanduser("~/.mivta"))
 HERE = os.path.dirname(os.path.abspath(__file__))
 FREE_LEX = os.path.join(os.path.dirname(HERE), "data", "he_lexicon_free.jsonl")
 MODEL = os.environ.get("HV_PHONIKUD", os.path.join(HOME, "models", "phonikud-1.0.int8.onnx"))
+# the niqqud model (Phonikud, MIT) at a pinned Hugging Face revision, checked against its SHA-256 before use
+MODEL_URL = ("https://huggingface.co/Phonikud/phonikud-onnx/resolve/b806189fe1fc0085b1012b7560ffb5e8ecfd72a2/"
+             "phonikud-1.0.int8.onnx")
+MODEL_SHA256 = "113afb58d3140502aa1e7691cdc6b240b56cf97e5852fc870e1a7fb5a400dd62"
+TOKENIZER = "dicta-il/dictabert-large-char-menaked"      # the model's tokenizer, which phonikud-onnx loads from Hugging Face
 LICENSE = os.path.join(HOME, "pro", "license.json")
 USER_LEX = os.path.join(HOME, "user_lex.json")
 SETTINGS = os.path.join(HOME, "settings.json")
@@ -162,13 +167,49 @@ def pro_lookup(text):
 
 
 # ------------------------------------------------------------------------------------------------- vocalize
+def _tokenizer_cached():
+    hub = os.environ.get("HF_HUB_CACHE") or os.path.join(os.environ.get("HF_HOME", os.path.expanduser("~/.cache/huggingface")), "hub")
+    d = os.path.join(hub, "models--" + TOKENIZER.replace("/", "--"), "snapshots")
+    return os.path.isdir(d) and any(os.scandir(d))
+
+
 _ph = None
 def phonikud():
+    """The niqqud model. Once setup has cached its tokenizer, it loads with no network at all (HF_HUB_OFFLINE)."""
     global _ph
     if _ph is None:
+        if _tokenizer_cached(): os.environ.setdefault("HF_HUB_OFFLINE", "1")
         from phonikud_onnx import Phonikud
         _ph = Phonikud(MODEL)
     return _ph
+
+
+def _sha256(path):
+    h = hashlib.sha256()
+    with open(path, "rb") as f:
+        for b in iter(lambda: f.read(1 << 20), b""): h.update(b)
+    return h.hexdigest()
+
+
+def fetch_model():
+    """Download the niqqud model once (about 300 MB) and keep it only if its SHA-256 matches."""
+    if os.path.exists(MODEL) and _sha256(MODEL) == MODEL_SHA256: return
+    import urllib.request
+    os.makedirs(os.path.dirname(MODEL), exist_ok=True); tmp = MODEL + ".part"; h = hashlib.sha256()
+    print("== niqqud model (Phonikud, MIT, about 300 MB)", flush=True)
+    with urllib.request.urlopen(MODEL_URL, timeout=120) as r, open(tmp, "wb") as f:
+        for b in iter(lambda: r.read(1 << 20), b""): f.write(b); h.update(b)
+    if h.hexdigest() != MODEL_SHA256:
+        os.remove(tmp); sys.exit(f"The niqqud model did not match its checksum. Run setup again, or write to {SUPPORT}.")
+    os.replace(tmp, MODEL)
+
+
+def setup():
+    """One-time install, run by setup.sh: the model (checksum-checked), its tokenizer, a test sentence, then doctor."""
+    fetch_model()
+    print("== tokenizer and a test sentence", flush=True)
+    print(phonikud().add_diacritics("שלום"))
+    doctor()
 
 
 def _boundary(raw, n):
@@ -455,4 +496,5 @@ if __name__ == "__main__":
     elif cmd == "trial": trial(args[0])
     elif cmd == "activate": activate(args[0])
     elif cmd == "doctor": doctor()
+    elif cmd == "setup": setup()
     else: print(__doc__)
