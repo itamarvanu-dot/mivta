@@ -34,11 +34,13 @@ In Claude Code:
 /plugin install mivta-niqqud@mivta
 ```
 Then ask Claude to "put niqqud on this text". The first time, Claude runs `skills/hebrew-niqqud/setup.sh`: a small
-Python environment and the niqqud model (about 400 MB, CPU only).
+Python environment and the niqqud model (about 400 MB, CPU only). In the Claude apps (web, desktop, mobile), code
+execution must be allowed to reach huggingface.co and hf.co, where the model comes from.
 
 ## What the plugin downloads and sends
 - Setup downloads Python packages from PyPI (pinned versions) and, from Hugging Face, the Phonikud
-  niqqud model (pinned revision, checked against its SHA-256) and its tokenizer. After setup the free plan runs offline.
+  niqqud model (pinned revision, checked against its SHA-256). The model's tokenizer ships with the plugin. After setup
+  the free plan runs offline.
 - Free plan: nothing else leaves your machine; your text never does.
 - Mivta Pro: your licence key and one-way codes (salted SHA-256) of the words and 2-3 word runs of the text go to the
   Mivta server (mivta.netlify.app), which returns the dictionary readings it has for those words. The text itself is

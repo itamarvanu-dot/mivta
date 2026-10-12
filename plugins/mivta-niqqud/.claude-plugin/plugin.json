@@ -1,7 +1,7 @@
 {
   "name": "mivta-niqqud",
   "displayName": "Mivta Niqqud",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Exact Hebrew niqqud and stress for any text: vowel points added on the text's own letters, a word-by-word table with how each word sounds, and the words to check. Free up to 150 words per run; Mivta Pro adds a shared, verified dictionary and any length. ניקוד והטעמה מדויקים לכל טקסט בעברית.",
   "author": {
     "name": "Itamar",

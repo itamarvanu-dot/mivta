@@ -30,6 +30,16 @@ MODEL_URL = ("https://huggingface.co/Phonikud/phonikud-onnx/resolve/b806189fe1fc
              "phonikud-1.0.int8.onnx")
 MODEL_SHA256 = "113afb58d3140502aa1e7691cdc6b240b56cf97e5852fc870e1a7fb5a400dd62"
 TOKENIZER = "dicta-il/dictabert-large-char-menaked"      # the model's tokenizer, which phonikud-onnx loads from Hugging Face
+# ... unless it ships with the plugin: DictaBERT char tokenizer (CC BY 4.0, revision 4dfc20b9, NOTICE.md), so the model
+# loads with no network at all and the tokenizer cannot change under us.
+TOKENIZER_FILE = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data",
+                                               "dictabert-large-char-menaked.tokenizer.json"))
+# Setup could not reach Hugging Face: say what to allow instead of a traceback (the Claude apps' default network access
+# lets code reach package registries and GitHub, not huggingface.co).
+NET_HELP = ("Setup could not download the niqqud model from Hugging Face ({err}).\n"
+            "If you use Claude in the browser, desktop or mobile app, its code environment may reach only package "
+            "registries. Allow the domains huggingface.co and hf.co (with their subdomains) in Claude's settings for "
+            "code execution, or use Mivta Niqqud in Claude Code or Cowork. Then run setup again. Questions: " + "{support}")
 LICENSE = os.path.join(HOME, "pro", "license.json")
 USER_LEX = os.path.join(HOME, "user_lex.json")
 SETTINGS = os.path.join(HOME, "settings.json")
@@ -175,10 +185,18 @@ def _tokenizer_cached():
 
 _ph = None
 def phonikud():
-    """The niqqud model. Once setup has cached its tokenizer, it loads with no network at all (HF_HUB_OFFLINE)."""
+    """The niqqud model, with the bundled tokenizer (no network at all). Without the bundled file it falls back to the
+    Hugging Face copy, and once that is cached it loads offline too (HF_HUB_OFFLINE)."""
     global _ph
     if _ph is None:
-        if _tokenizer_cached(): os.environ.setdefault("HF_HUB_OFFLINE", "1")
+        if os.path.exists(TOKENIZER_FILE):
+            import phonikud_onnx.model as pm
+            from tokenizers import Tokenizer
+            class _Bundled:                       # phonikud-onnx asks for its tokenizer by Hub name: hand it the bundled file
+                @staticmethod
+                def from_pretrained(_name): return Tokenizer.from_file(TOKENIZER_FILE)
+            pm.Tokenizer = _Bundled
+        elif _tokenizer_cached(): os.environ.setdefault("HF_HUB_OFFLINE", "1")
         from phonikud_onnx import Phonikud
         _ph = Phonikud(MODEL)
     return _ph
@@ -194,21 +212,29 @@ def _sha256(path):
 def fetch_model():
     """Download the niqqud model once (about 300 MB) and keep it only if its SHA-256 matches."""
     if os.path.exists(MODEL) and _sha256(MODEL) == MODEL_SHA256: return
-    import urllib.request
+    import urllib.request, urllib.error
     os.makedirs(os.path.dirname(MODEL), exist_ok=True); tmp = MODEL + ".part"; h = hashlib.sha256()
     print("== niqqud model (Phonikud, MIT, about 300 MB)", flush=True)
-    with urllib.request.urlopen(MODEL_URL, timeout=120) as r, open(tmp, "wb") as f:
-        for b in iter(lambda: r.read(1 << 20), b""): f.write(b); h.update(b)
+    try:
+        with urllib.request.urlopen(MODEL_URL, timeout=120) as r, open(tmp, "wb") as f:
+            for b in iter(lambda: r.read(1 << 20), b""): f.write(b); h.update(b)
+    except (urllib.error.URLError, ConnectionError, TimeoutError) as e:      # HTTPError (a blocked domain) is a URLError
+        if os.path.exists(tmp): os.remove(tmp)
+        sys.exit(NET_HELP.format(err=e, support=SUPPORT))
     if h.hexdigest() != MODEL_SHA256:
         os.remove(tmp); sys.exit(f"The niqqud model did not match its checksum. Run setup again, or write to {SUPPORT}.")
     os.replace(tmp, MODEL)
 
 
 def setup():
-    """One-time install, run by setup.sh: the model (checksum-checked), its tokenizer, a test sentence, then doctor."""
+    """One-time install, run by setup.sh: the model (checksum-checked), a test sentence, then doctor."""
     fetch_model()
-    print("== tokenizer and a test sentence", flush=True)
-    print(phonikud().add_diacritics("שלום"))
+    print("== a test sentence", flush=True)
+    try:
+        print(phonikud().add_diacritics("שלום"))
+    except Exception as e:                       # without the bundled tokenizer, its download failed: a network problem
+        if os.path.exists(TOKENIZER_FILE) or _tokenizer_cached(): raise
+        sys.exit(NET_HELP.format(err=e, support=SUPPORT))
     doctor()
 
 

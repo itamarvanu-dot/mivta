@@ -14,6 +14,9 @@ Talk to the user in their language (usually Hebrew). The script is `scripts/nq.p
 
 ## 1. Install (once)
 `bash setup.sh` (about 400 MB, a few minutes, CPU only). Then `python nq.py doctor` must say `ready`.
+If setup says it could not reach Hugging Face, the code environment blocks that site (in the Claude apps the default
+network access covers package registries only): tell the user to allow huggingface.co and hf.co in Claude's settings
+for code execution, or to use Claude Code or Cowork. Do not fetch the model from any other source.
 
 ## 2. Vocalize
 - A short text: `python nq.py text "<the text>"`.
