@@ -9,7 +9,10 @@ Last updated: 2026-10-12
   pronunciations it has for those words. Sentences, audio and your voice are never sent. The server logs which
   codes each licence received (to trace a leaked copy of the dictionary), and keeps those logs for 90 days.
 - **Licence checks:** the licence key and a random installation id (not your computer's name) go to Lemon Squeezy (our merchant of record) through
-  our server.
+  our server. The server logs each activation (a one-way code of the licence key, the plan and the time) and keeps
+  that log for 90 days.
+- **Server:** our server runs on Netlify. It uses your IP address only in memory, to limit how often requests can be
+  made, and does not store it.
 - **Pro module:** with Pro or Studio, the plugin asks our server once a day whether its copy of the Mivta Pro module is
   current (it sends the licence key and the module version) and downloads a new copy when there is one. We log which
   licence received which copy.

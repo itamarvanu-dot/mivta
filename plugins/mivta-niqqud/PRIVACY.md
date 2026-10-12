@@ -11,7 +11,10 @@ Last updated: 2026-10-12
   dictionary readings it has for those words. The text itself is never sent. The server logs which codes each licence
   received (to trace a leaked copy of the dictionary) and keeps those logs for 90 days.
 - **Licence checks:** the licence key and a random installation id (not your computer's name) go to Lemon Squeezy (our merchant of record) through
-  our server.
+  our server. The server logs each activation (a one-way code of the licence key, the plan and the time) and keeps
+  that log for 90 days.
+- **Server:** our server runs on Netlify. It uses your IP address only in memory, to limit how often requests can be
+  made, and does not store it.
 - **Trial:** we keep the email address you start a trial with, so each address gets one trial, and may write to you
   once when the trial ends. Ask us and we delete it.
 - **Payments** are handled by Lemon Squeezy as merchant of record; we do not see your card details.

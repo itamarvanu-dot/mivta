@@ -7,7 +7,7 @@ check of every take. It runs on a free, commercially licensed engine (Chatterbox
 **הקול שלך, בעברית מדויקת.** פלאגין ל-Claude שמשבט את הקול שלכם ומקריא עברית עם ניקוד והטעמה נכונים: מילון מאומת,
 סקירת מילה-מילה לפני כל הקלטה, ובדיקה אוטומטית של כל משפט.
 
-Website: https://mivta.netlify.app · Support: mivta.ai@gmail.com
+Website: https://mivta.netlify.app · Support: mivta.ai@gmail.com · Security reports: [SECURITY.md](https://github.com/itamarvanu-dot/mivta/blob/main/SECURITY.md)
 
 ## Why
 Hebrew is written without vowels, so voice engines guess. Chatterbox's own Hebrew step fails silently and the text

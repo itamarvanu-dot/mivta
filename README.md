@@ -7,7 +7,7 @@ Hebrew that reads right. Two Claude plugins:
 | [**mivta**](plugins/mivta) | Clones your own voice and narrates Hebrew with exact pronunciation: a word-by-word review before every recording and an automatic check of every take. |
 | [**mivta-niqqud**](plugins/mivta-niqqud) | Adds exact niqqud and stress to any Hebrew text, with a table of how each word sounds and the words to check. |
 
-Website: https://mivta.netlify.app · Support: mivta.ai@gmail.com
+Website: https://mivta.netlify.app · Support: mivta.ai@gmail.com · Security reports: [SECURITY.md](SECURITY.md)
 
 ## Install
 In Claude Code:

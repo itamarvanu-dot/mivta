@@ -8,7 +8,7 @@ narrators, and anyone preparing Hebrew text for reading aloud or for a voice eng
 **ניקוד והטעמה מדויקים לכל טקסט בעברית.** מוסיף ניקוד על האותיות של הטקסט עצמו, מראה איך כל מילה נשמעת ואיפה
 ההטעמה, ומסמן את המילים שכדאי לבדוק.
 
-Website: https://mivta.netlify.app/niqqud/ · Support: mivta.ai@gmail.com
+Website: https://mivta.netlify.app/niqqud/ · Support: mivta.ai@gmail.com · Security reports: [SECURITY.md](https://github.com/itamarvanu-dot/mivta/blob/main/SECURITY.md)
 
 ## What you get
 - The text with niqqud, as a file you can print or paste.
