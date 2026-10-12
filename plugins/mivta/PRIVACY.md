@@ -8,7 +8,7 @@ Last updated: 2026-10-12
   (salted SHA-256) of the individual words and 2-4 word runs in your script, so the server can return the
   pronunciations it has for those words. Sentences, audio and your voice are never sent. The server logs which
   codes each licence received (to trace a leaked copy of the dictionary), and keeps those logs for 90 days.
-- **Licence checks:** the licence key and an installation name go to Lemon Squeezy (our merchant of record) through
+- **Licence checks:** the licence key and a random installation id (not your computer's name) go to Lemon Squeezy (our merchant of record) through
   our server.
 - **Pro module:** with Pro or Studio, the plugin asks our server once a day whether its copy of the Mivta Pro module is
   current (it sends the licence key and the module version) and downloads a new copy when there is one. We log which

@@ -9,7 +9,7 @@ Last updated: 2026-10-12
   one-way codes (salted SHA-256) of the individual words and 2-3 word runs in your text, so the server can return the
   dictionary readings it has for those words. The text itself is never sent. The server logs which codes each licence
   received (to trace a leaked copy of the dictionary) and keeps those logs for 90 days.
-- **Licence checks:** the licence key and an installation name go to Lemon Squeezy (our merchant of record) through
+- **Licence checks:** the licence key and a random installation id (not your computer's name) go to Lemon Squeezy (our merchant of record) through
   our server.
 - **Trial:** we keep the email address you start a trial with, so each address gets one trial, and may write to you
   once when the trial ends. Ask us and we delete it.

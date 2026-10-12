@@ -325,11 +325,20 @@ def export(S):
 
 
 # ------------------------------------------------------------------------------------------------------- licences
+def install_id():
+    """A random name for this installation (shared with Mivta Niqqud): the licence's activation label, never the
+    computer's name."""
+    p = os.path.join(paths.HOME, "install_id")
+    if not os.path.exists(p):
+        import secrets
+        os.makedirs(paths.HOME, exist_ok=True); open(p, "w").write("mivta-" + secrets.token_hex(4))
+    return open(p).read().strip()[:40]
+
+
 def activate(key):
-    import socket
     os.makedirs(paths.PRO, exist_ok=True)
     if os.path.exists(paths.LICENSE): os.remove(paths.LICENSE)        # the new key, not the old one, rides along
-    r = _server("/activate", {"key": key, "instance": socket.gethostname()[:40]})
+    r = _server("/activate", {"key": key, "instance": install_id()})
     if not r.get("ok"): sys.exit("licence not accepted: " + r.get("error", "unknown"))
     json.dump({"key": key, "instance_id": r.get("instance_id"), "tier": r.get("tier", "pro"), "expires": r.get("expires")},
               open(paths.LICENSE, "w"))

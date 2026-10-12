@@ -401,11 +401,20 @@ def set_settings(args):
     os.makedirs(HOME, exist_ok=True); json.dump(st, open(SETTINGS, "w"), indent=1); print(st)
 
 
+def install_id():
+    """A random name for this installation (shared with Mivta voice): the licence's activation label, never the
+    computer's name."""
+    p = os.path.join(HOME, "install_id")
+    if not os.path.exists(p):
+        import secrets
+        os.makedirs(HOME, exist_ok=True); open(p, "w").write("mivta-" + secrets.token_hex(4))
+    return open(p).read().strip()[:40]
+
+
 def activate(key):
-    import socket
     os.makedirs(os.path.dirname(LICENSE), exist_ok=True)
     if os.path.exists(LICENSE): os.remove(LICENSE)
-    r = server("/activate", {"key": key, "instance": socket.gethostname()[:40]})
+    r = server("/activate", {"key": key, "instance": install_id()})
     if not r.get("ok"): sys.exit("licence not accepted: " + r.get("error", "unknown"))
     json.dump({"key": key, "instance_id": r.get("instance_id"), "tier": r.get("tier", "pro"), "expires": r.get("expires")},
               open(LICENSE, "w"))
