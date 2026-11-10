@@ -1,14 +1,14 @@
 """Mivta Niqqud: exact niqqud and stress for Hebrew text, with a word-by-word table of the reading.
 
-  python nq.py doctor                              check the install and the plan
-  python nq.py text "<Hebrew text>" [--out DIR]    vocalize a short text (prints it; files too with --out)
-  python nq.py file <input.txt> [--out DIR]        vocalize a file -> <name>.niqqud.txt, <name>.table.md (+ .stress.txt, Pro)
+  mivta-niqqud doctor                              check the install and the plan
+  mivta-niqqud text "<Hebrew text>" [--out DIR]    vocalize a short text (prints it; files too with --out)
+  mivta-niqqud file <input.txt> [--out DIR]        vocalize a file -> <name>.niqqud.txt, <name>.table.md (+ .stress.txt, Pro)
 
 Free plan: up to 150 words per run. Mivta Pro: any length, the shared verified dictionary, the stress-marked copy.
-  python nq.py add-word <word> <niqqud>            your own reading of a word, used from now on (mil'el: U+05AB)
-  python nq.py settings [--domains=general,diy] [--style=standard|colloquial]
-  python nq.py trial <email>                       Mivta Pro for 7 days, no card (the shared, verified dictionary)
-  python nq.py activate <licence key>              Mivta Pro / Studio (the key from the purchase email)
+  mivta-niqqud add-word <word> <niqqud>            your own reading of a word, used from now on (mil'el: U+05AB)
+  mivta-niqqud settings [--domains=general,diy] [--style=standard|colloquial]
+  mivta-niqqud trial <email>                       Mivta Pro for 7 days, no card (the shared, verified dictionary)
+  mivta-niqqud activate <licence key>              Mivta Pro / Studio (the key from the purchase email)
 
 Outputs: .niqqud.txt = standard niqqud (the input's own letters, vowel points added); .stress.txt = the same with the
 stress mark (U+05AB) on words stressed before the last syllable; .table.md = every word, its niqqud, how it sounds
@@ -17,23 +17,22 @@ stress mark (U+05AB) on words stressed before the last syllable; .table.md = eve
 Readings, first match wins: your own words (HV_HOME/user_lex.json) > Mivta Pro's shared dictionary (Pro only: one-way
 codes of the words are sent to the Mivta server, never the text) > the starter dictionary > Phonikud's automatic
 niqqud (the Phonikud model, MIT; Phonikud code, CC BY 4.0).
-Run with:  ~/.mivta/venv_nq/bin/python nq.py ...
+Installed as the command  mivta-niqqud  (in ~/.mivta/venv_nq/bin). See the plugin's SKILL.md for the install.
 """
 import os, sys, re, json, time, hashlib, unicodedata
 
 HOME = os.path.abspath(os.environ.get("HV_HOME", os.path.expanduser("~/.mivta")))      # shared with Mivta (voice)
 HERE = os.path.dirname(os.path.abspath(__file__))
-FREE_LEX = os.path.join(os.path.dirname(HERE), "data", "he_lexicon_free.jsonl")
+FREE_LEX = os.path.join(HERE, "data", "he_lexicon_free.jsonl")
 MODEL = os.environ.get("HV_PHONIKUD", os.path.join(HOME, "models", "phonikud-1.0.int8.onnx"))
 # the niqqud model (Phonikud, MIT) at a pinned Hugging Face revision, checked against its SHA-256 before use
 MODEL_URL = ("https://huggingface.co/Phonikud/phonikud-onnx/resolve/b806189fe1fc0085b1012b7560ffb5e8ecfd72a2/"
              "phonikud-1.0.int8.onnx")
 MODEL_SHA256 = "113afb58d3140502aa1e7691cdc6b240b56cf97e5852fc870e1a7fb5a400dd62"
 TOKENIZER = "dicta-il/dictabert-large-char-menaked"      # the model's tokenizer, which phonikud-onnx loads from Hugging Face
-# ... unless it ships with the plugin: DictaBERT char tokenizer (CC BY 4.0, revision 4dfc20b9, NOTICE.md), so the model
+# ... unless it ships with this package: DictaBERT char tokenizer (CC BY 4.0, revision 4dfc20b9, NOTICE.md), so the model
 # loads with no network at all and the tokenizer cannot change under us.
-TOKENIZER_FILE = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data",
-                                               "dictabert-large-char-menaked.tokenizer.json"))
+TOKENIZER_FILE = os.path.join(HERE, "data", "dictabert-large-char-menaked.tokenizer.json")
 # Setup could not reach Hugging Face: say what to allow instead of a traceback (the Claude apps' default network access
 # lets code reach package registries and GitHub, not huggingface.co).
 NET_HELP = ("Setup could not download the niqqud model from Hugging Face ({err}).\n"
@@ -47,7 +46,7 @@ SERVER = os.environ.get("HV_DICT_SERVER", "https://mivta.netlify.app")
 SUPPORT = "mivta.ai@gmail.com"
 FREE_OWN_WORDS = 10
 FREE_WORDS = 150                                   # free plan: words per run (Pro: any length)
-UPGRADE = "Mivta Pro checks them against the shared, verified dictionary (python nq.py trial <email>: 7 days free, no card)."
+UPGRADE = "Mivta Pro checks them against the shared, verified dictionary (mivta-niqqud trial <email>: 7 days free, no card)."
 STRESS, METEG, SHVA, DAGESH = "\u05ab", "\u05bd", "\u05b0", "\u05bc"
 NIQQUD = re.compile(r"[\u0591-\u05c7]")
 # the vowel each point says (qamats: a, or o as in kol); a plain shva says e only where the IPA has one
@@ -227,7 +226,7 @@ def fetch_model():
 
 
 def setup():
-    """One-time install, run by setup.sh: the model (checksum-checked), a test sentence, then doctor."""
+    """One-time install, run once after pip install: the model (checksum-checked), a test sentence, then doctor."""
     fetch_model()
     print("== a test sentence", flush=True)
     try:
@@ -436,7 +435,7 @@ def run(text, out_dir=None, name="text"):
     print(standard(voc)); print(); print(table); print()
     print(f"{len(rows)} words: {len(rows) - n_auto} from dictionaries, {n_auto} from automatic niqqud. Check the automatic "
           "ones with the user, above all names, loanwords and words with two meanings (סֵפֶר / סַפָּר). Fix a word for good "
-          "with  python nq.py add-word <word> <niqqud>.")
+          "with  mivta-niqqud add-word <word> <niqqud>.")
     if tier() == "free" and n_auto: print(f"Free plan: {n_auto} words came from automatic niqqud only. {UPGRADE}")
     if cut: print(f"Free plan: the first {FREE_WORDS} of {cut} words. Mivta Pro vocalizes texts of any length.")
     if out_dir:
@@ -502,14 +501,14 @@ def doctor():
         import phonikud, phonikud_onnx  # noqa: F401
         line(True, "Python packages (phonikud, phonikud-onnx)")
     except ImportError:
-        line(False, "Python packages missing (bash setup.sh)")
+        line(False, "Python packages missing (install the mivta-niqqud package; see the plugin's SKILL.md)")
     line(os.path.exists(MODEL), f"niqqud model {MODEL}")
     L = licence() or {}
     print(f"plan: {tier()}" + (f" (trial until {time.strftime('%Y-%m-%d', time.localtime(L['expires']))})" if L.get("expires") else ""))
-    print("ready" if ok else "fix the lines above (bash setup.sh installs everything)")
+    print("ready" if ok else "fix the lines above (the install in the plugin's SKILL.md sets everything up)")
 
 
-if __name__ == "__main__":
+def main():
     cmd, args = (sys.argv[1], sys.argv[2:]) if len(sys.argv) > 1 else ("help", [])
     out = next((a.split("=", 1)[1] for a in args if a.startswith("--out=")), None)
     if "--out" in args: out = args[args.index("--out") + 1]
@@ -524,3 +523,7 @@ if __name__ == "__main__":
     elif cmd == "doctor": doctor()
     elif cmd == "setup": setup()
     else: print(__doc__)
+
+
+if __name__ == "__main__":
+    main()

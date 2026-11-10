@@ -1,0 +1,37 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mivta-niqqud"
+version = "1.0.7"
+description = "Mivta Niqqud engine: exact niqqud and stress for Hebrew text (used by the Mivta Niqqud Claude plugin)"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {file = "LICENSE"}
+authors = [{name = "Itamar", email = "mivta.ai@gmail.com"}]
+# exact versions tested together (CPU only)
+dependencies = [
+  "phonikud==0.4.1",
+  "phonikud-onnx==1.0.6",
+  "onnxruntime==1.21.1",
+  "tokenizers==0.22.2",
+  "huggingface-hub==1.32.0",
+  "numpy==2.4.6",
+  "num2words==0.5.14",
+  "colorlog==6.12.0",
+  "regex==2026.9.10",
+]
+
+[project.urls]
+Homepage = "https://mivta.netlify.app/niqqud/"
+Source = "https://github.com/itamarvanu-dot/mivta/tree/main/engines/mivta-niqqud"
+
+[project.scripts]
+mivta-niqqud = "mivta_niqqud.nq:main"
+
+[tool.setuptools]
+packages = ["mivta_niqqud"]
+
+[tool.setuptools.package-data]
+mivta_niqqud = ["data/*.json", "data/*.jsonl"]

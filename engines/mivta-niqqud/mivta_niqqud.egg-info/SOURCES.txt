@@ -1,0 +1,14 @@
+LICENSE
+NOTICE.md
+README.md
+pyproject.toml
+mivta_niqqud/__init__.py
+mivta_niqqud/nq.py
+mivta_niqqud.egg-info/PKG-INFO
+mivta_niqqud.egg-info/SOURCES.txt
+mivta_niqqud.egg-info/dependency_links.txt
+mivta_niqqud.egg-info/entry_points.txt
+mivta_niqqud.egg-info/requires.txt
+mivta_niqqud.egg-info/top_level.txt
+mivta_niqqud/data/dictabert-large-char-menaked.tokenizer.json
+mivta_niqqud/data/he_lexicon_free.jsonl
