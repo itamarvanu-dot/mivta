@@ -1,2 +1,0 @@
-[console_scripts]
-mivta-niqqud = mivta_niqqud.nq:main
