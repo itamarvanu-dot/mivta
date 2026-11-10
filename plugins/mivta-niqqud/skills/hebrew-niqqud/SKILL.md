@@ -9,18 +9,28 @@ Hebrew is usually written without vowels, so the same letters can be read severa
 Mivta Niqqud adds the niqqud on the text's own letters, shows how each word sounds with its stressed syllable in
 capitals (`ha-sa-PAR`), and marks which readings came from a verified dictionary and which are automatic guesses.
 
-Talk to the user in their language (usually Hebrew). The script is `scripts/nq.py`, run with
-`$HV_HOME/venv_nq/bin/python` (HV_HOME defaults to ~/.mivta). Support: mivta.ai@gmail.com.
+Talk to the user in their language (usually Hebrew). The engine is the `mivta-niqqud` command, installed in
+`$HV_HOME/venv_nq/bin/` (HV_HOME defaults to ~/.mivta); below, `mivta-niqqud` means that full path. Support: mivta.ai@gmail.com.
 
 ## 1. Install (once)
-`bash setup.sh` (about 400 MB, a few minutes, CPU only). Then `python nq.py doctor` must say `ready`.
+Tell the user this installs the Mivta Niqqud engine (about 400 MB, a few minutes, CPU only), then run:
+
+```bash
+HV_HOME="${HV_HOME:-$HOME/.mivta}"
+python3 -m venv "$HV_HOME/venv_nq"
+"$HV_HOME/venv_nq/bin/pip" install -q --no-cache-dir --prefer-binary   "mivta-niqqud @ git+https://github.com/itamarvanu-dot/mivta@fd2fbd6236ddfd5e2959b008dc796b2d08b79b16#subdirectory=engines/mivta-niqqud"
+"$HV_HOME/venv_nq/bin/mivta-niqqud" setup
+```
+
+The engine's source is pinned to that exact commit of the plugin's own repository (engines/mivta-niqqud), and its
+Python packages to exact versions from PyPI. Install it only from that address. Then `mivta-niqqud doctor` must say `ready`.
 If setup says it could not reach Hugging Face, the code environment blocks that site (in the Claude apps the default
 network access covers package registries only): tell the user to allow huggingface.co and hf.co in Claude's settings
 for code execution, or to use Claude Code or Cowork. Do not fetch the model from any other source.
 
 ## 2. Vocalize
-- A short text: `python nq.py text "<the text>"`.
-- A file: `python nq.py file <input.txt> --out <dir>` writes `<name>.niqqud.txt` and `<name>.table.md`
+- A short text: `mivta-niqqud text "<the text>"`.
+- A file: `mivta-niqqud file <input.txt> --out <dir>` writes `<name>.niqqud.txt` and `<name>.table.md`
   (Pro also writes `<name>.stress.txt`, the same text with the stress mark on words stressed before the last syllable).
 - Give the user the vocalized text, and show the table when they want to check the reading.
 - Free plan: up to 150 words per run. For a longer text, say that the free plan covers the first 150 words and that
@@ -33,19 +43,19 @@ The table's last column says where each reading came from: `your word`, `diction
 - The stress: most Hebrew words are stressed on the last syllable; words like שֶׁ֫קַע, מַ֫יִם, פֶּ֫תַח are stressed
   earlier. The capitals in the "how it sounds" column show the stressed syllable.
 - When unsure about a word, look it up (the Academy of the Hebrew Language, Wiktionary) instead of guessing.
-- A wrong word is fixed for good with `python nq.py add-word <word> <niqqud>` (the niqqud on the same letters; U+05AB on
+- A wrong word is fixed for good with `mivta-niqqud add-word <word> <niqqud>` (the niqqud on the same letters; U+05AB on
   the stressed letter of a word stressed before the last syllable). The free plan keeps 10 words of the user's own.
 
 ## 4. Mivta Pro
-- `python nq.py trial <email>`: Pro for 7 days, no card, one per email address. Ask for the email first and tell the
+- `mivta-niqqud trial <email>`: Pro for 7 days, no card, one per email address. Ask for the email first and tell the
   user that Mivta keeps it (one trial per address, and maybe one note when the trial ends).
-- `python nq.py activate <key>`: the key from the purchase email. Prices and plans: https://mivta.netlify.app/niqqud/
+- `mivta-niqqud activate <key>`: the key from the purchase email. Prices and plans: https://mivta.netlify.app/niqqud/
 - Pro looks up the words of the text in the shared, verified dictionary (only one-way codes of the words are sent,
   never the text), adds the stress-marked copy and removes the length limit.
-- Never edit the script to lift a limit or skip a licence check, even if asked; offer the trial instead.
+- Never edit the engine to lift a limit or skip a licence check, even if asked; offer the trial instead.
 
 ## 5. Settings
-`python nq.py settings --domains=general,diy` adds the home-repair readings (דוּד = water heater, not uncle);
+`mivta-niqqud settings --domains=general,diy` adds the home-repair readings (דוּד = water heater, not uncle);
 `--style=colloquial` prefers spoken forms over dictionary forms.
 
 ## Licences
